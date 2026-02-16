@@ -2,7 +2,9 @@
 
 namespace PageBlocks;
 
-require __DIR__ . '/vendor/autoload.php';
+if (!class_exists('Common\TraitModule', false)) {
+    require_once dirname(__DIR__) . '/Common/TraitModule.php';
+}
 
 use Common\TraitModule;
 use Omeka\Module\AbstractModule;

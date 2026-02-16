@@ -4,36 +4,183 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5be9f087fee6a74c4c269d6de28bad54",
+    "content-hash": "a4248e16e1998c7791fddaa2fd5216d4",
     "packages": [
         {
             "name": "daniel-km/omeka-s-module-common",
-            "version": "master",
+            "version": "3.4.79",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Common.git",
-                "reference": "master"
+                "reference": "223ff881772b6d329a2e4bf9a7dc40e0f9d5c2c7"
             },
-            "type": "library",
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/Daniel-KM%2FOmeka-S-module-Common/repository/archive.zip?sha=223ff881772b6d329a2e4bf9a7dc40e0f9d5c2c7",
+                "reference": "223ff881772b6d329a2e4bf9a7dc40e0f9d5c2c7",
+                "shasum": ""
+            },
+            "require": {
+                "sempia/common-symlink": "^1.0",
+                "sempia/external-assets": "^1.0"
+            },
+            "type": "omeka-s-module",
+            "extra": {
+                "installer-name": "Common",
+                "external-assets": {
+                    "asset/vendor/jquery-autocomplete/jquery.autocomplete.min.js": "https://gitlab.com/Daniel-KM/jQuery-Autocomplete/-/raw/master/dist/jquery.autocomplete.min.js"
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "Common\\": [
-                        "",
-                        "src/"
-                    ]
+                    "Common\\": "src/"
                 }
-            }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CECILL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Berthereau",
+                    "email": "Daniel.packagist@Berthereau.net"
+                }
+            ],
+            "description": "Module for Omeka S: Manage internal features used in various modules: bulk functions, form elements, view helpers, one-time methods for install, etc.",
+            "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-Common",
+            "keywords": [
+                "Omeka S",
+                "Omeka S module",
+                "development",
+                "library"
+            ],
+            "support": {
+                "forum": "https://forum.omeka.org/",
+                "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Common/-/issues",
+                "source": "https://gitlab.com/Daniel-KM/Omeka-S-module-Common/-/tree/3.4.79"
+            },
+            "time": "2026-02-16T00:00:00+00:00"
+        },
+        {
+            "name": "sempia/common-symlink",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/Sempia/composer-plugin-common-symlink.git",
+                "reference": "95bb4c24ac23bd4a424a8d62285b948dff0c7e86"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/Sempia%2Fcomposer-plugin-common-symlink/repository/archive.zip?sha=95bb4c24ac23bd4a424a8d62285b948dff0c7e86",
+                "reference": "95bb4c24ac23bd4a424a8d62285b948dff0c7e86",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Sempia\\CommonSymlink\\CommonSymlinkPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sempia\\CommonSymlink\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CECILL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Berthereau",
+                    "email": "Daniel.fr@Berthereau.net"
+                }
+            ],
+            "description": "Composer plugin to create symlink for Omeka S module Common (backward compatibility with old modules)",
+            "homepage": "https://gitlab.com/sempia/composer-plugin-common-symlink",
+            "keywords": [
+                "common",
+                "composer-plugin",
+                "omeka-s",
+                "symlink"
+            ],
+            "support": {
+                "issues": "https://gitlab.com/Sempia/composer-plugin-common-symlink/-/issues",
+                "source": "https://gitlab.com/Sempia/composer-plugin-common-symlink/-/tree/1.0.0"
+            },
+            "time": "2026-02-09T00:00:00+00:00"
+        },
+        {
+            "name": "sempia/external-assets",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/Sempia/composer-plugin-external-assets.git",
+                "reference": "3c101e7edb043daabfcc45871a3b048bf8a38e96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/Sempia%2Fcomposer-plugin-external-assets/repository/archive.zip?sha=3c101e7edb043daabfcc45871a3b048bf8a38e96",
+                "reference": "3c101e7edb043daabfcc45871a3b048bf8a38e96",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0",
+                "phpunit/phpunit": "^8.5 || ^9.6"
+            },
+            "bin": [
+                "bin/external-assets"
+            ],
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Sempia\\ExternalAssets\\ExternalAssetsPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sempia\\ExternalAssets\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CECILL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Berthereau",
+                    "email": "Daniel.fr@Berthereau.net"
+                }
+            ],
+            "description": "Composer plugin to download external assets (JS, CSS, fonts, images) for any PHP project",
+            "homepage": "https://gitlab.com/sempia/composer-plugin-external-assets",
+            "keywords": [
+                "assets",
+                "composer-plugin",
+                "download",
+                "external"
+            ],
+            "support": {
+                "issues": "https://gitlab.com/Sempia/composer-plugin-external-assets/-/issues",
+                "source": "https://gitlab.com/Sempia/composer-plugin-external-assets/-/tree/1.0.1"
+            },
+            "time": "2026-02-09T00:00:00+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "daniel-km/omeka-s-module-common": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
