@@ -121,15 +121,42 @@ function migrateOldBlockTypes(array $migrators, EntityManager $manager) : void {
 
     $affectedPages = array_unique($affectedPages, SORT_REGULAR);
     foreach ($affectedPages as $affectedPage) {
+        enableGridPageLayout($affectedPage);
         migrateAffectedPage($migrators, $manager, $affectedPage);
     }
 
     $manager->flush();
 }
 
+function enableGridPageLayout(SitePage $page) : void {
+    $page->setLayout('grid');
+
+    // Page has not been saved since before Omeka S 4.1.0
+    if (!is_null($page->getLayoutData())) {
+        return;
+    }
+
+    $layoutData = [
+        "grid_columns" => "12",
+        "grid_column_gap" => "10",
+        "grid_row_gap" => "10",
+        "template_name" => ""
+    ];
+    $page->setLayoutData($layoutData);
+
+    $blocks = $page->getBlocks();
+    foreach ($blocks as $block) {
+        $block->setLayoutData([
+            "grid_column_position" => "auto",
+            "grid_column_span" => $layoutData['grid_columns']
+        ]);
+    }
+}
+
 function migrateAffectedPage(array $migrators, EntityManager $manager, SitePage $page) : void {
     $blocks = $page->getBlocks();
     $deltaPosition = 0;
+    $numColumns = intval($page->getLayoutData()['grid_columns']);
 
     foreach ($blocks as $block) {
         // Cascade block positions to account for newly added ones
@@ -145,10 +172,15 @@ function migrateAffectedPage(array $migrators, EntityManager $manager, SitePage 
         }
 
         $newObjects = $migrators[$layout]($block);
+        $columnsPerBlock = floor($numColumns / count($newObjects['blocks']));
 
         foreach ($newObjects['blocks'] as $newBlock) {
             $newBlock->setPage($block->getPage());
             $newBlock->setPosition($basePosition + $deltaPosition++);
+            $newBlock->setLayoutData([
+                "grid_column_position" => "auto",
+                "grid_column_span" => strval($columnsPerBlock)
+            ]);
             $manager->persist($newBlock);
         }
 
