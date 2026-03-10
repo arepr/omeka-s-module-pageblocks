@@ -10,10 +10,7 @@ $this->headLink()->appendStylesheet($assetUrl('css/style.css', 'PageBlocks'));
     <?php foreach ($attachments as $attachment): ?>
         <?php $item = $attachment->item(); ?>
         <div class="col-single">
-            <?= $attachment->media()->render([
-                'hideTranscript' => true,
-                'compactMode' => true,
-            ]) ?>
+            <?= $attachment->media()->render() ?>
             <?php if ($showHeading): ?>
                 <h4><?= $item->link($item->displayTitle('', $lang)) ?></h4>
             <?php endif; ?>
