@@ -2,13 +2,14 @@
 
 namespace PageBlocks;
 
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\SitePage;
 use Omeka\Entity\SitePageBlock;
 
 /**
  * @var Module $this
- * @var \Laminas\ServiceManager\ServiceLocatorInterface $services
+ * @var ServiceLocatorInterface $services
  * @var string $newVersion
  * @var string $oldVersion
  */
@@ -105,10 +106,43 @@ $migrators = [
             'blocks' => [ $newBlockOne, $newBlockTwo ],
             'attachments' => $newAttachments
         ];
+    },
+    'topics-list' => function (SitePageBlock $oldBlock, ServiceLocatorInterface $services) {
+        $site = $oldBlock->getPage()->getSite();
+        $urlHelper = $services->get('ViewHelperManager')->get('Url');
+        $siteUrl = $urlHelper('site', [
+            'site-slug' => $site->getSlug()
+        ], true);
+
+        $oldData = $oldBlock->getData();
+        $newData = [
+            'header' => $oldData['header'],
+            'button_color' => $oldData['button_color'],
+            'text_color' => $oldData['text_color'],
+            'topics' => []
+        ];
+
+        foreach ($oldData['topics'] as $topic) {
+            $convertedQuery = $siteUrl . '/item?' . $topic['query'];
+
+            $newData['topics'][] = [
+                'label' => $topic['label'],
+                'icon' => $topic['icon'],
+                'link' => $convertedQuery
+            ];
+        }
+
+        $newBlock = new SitePageBlock();
+        $newBlock->setLayout('topics-list');
+        $newBlock->setData($newData);
+
+        return [
+            'blocks' => [ $newBlock ]
+        ];
     }
 ];
 
-function migrateOldBlockTypes(array $migrators, EntityManager $manager) : void {
+function migrateOldBlockTypes(array $migrators, EntityManager $manager, ServiceLocatorInterface $services) : void {
     $repository = $manager->getRepository("Omeka\Entity\SitePageBlock");
 
     $affectedPages = [];
@@ -122,7 +156,7 @@ function migrateOldBlockTypes(array $migrators, EntityManager $manager) : void {
     $affectedPages = array_unique($affectedPages, SORT_REGULAR);
     foreach ($affectedPages as $affectedPage) {
         enableGridPageLayout($affectedPage);
-        migrateAffectedPage($migrators, $manager, $affectedPage);
+        migrateAffectedPage($migrators, $manager, $services, $affectedPage);
     }
 
     $manager->flush();
@@ -153,7 +187,7 @@ function enableGridPageLayout(SitePage $page) : void {
     }
 }
 
-function migrateAffectedPage(array $migrators, EntityManager $manager, SitePage $page) : void {
+function migrateAffectedPage(array $migrators, EntityManager $manager, ServiceLocatorInterface $services, SitePage $page) : void {
     $blocks = $page->getBlocks();
     $deltaPosition = 0;
     $numColumns = intval($page->getLayoutData()['grid_columns']);
@@ -171,7 +205,7 @@ function migrateAffectedPage(array $migrators, EntityManager $manager, SitePage 
             continue;
         }
 
-        $newObjects = $migrators[$layout]($block);
+        $newObjects = $migrators[$layout]($block, $services);
         $columnsPerBlock = floor($numColumns / count($newObjects['blocks']));
 
         foreach ($newObjects['blocks'] as $newBlock) {
@@ -197,7 +231,7 @@ if (version_compare($oldVersion, '2.0', '<')) {
     /** @var EntityManager $api */
     $manager = $services->get('Omeka\EntityManager');
 
-    migrateOldBlockTypes($migrators, $manager);
+    migrateOldBlockTypes($migrators, $manager, $services);
 }
 
 ?>

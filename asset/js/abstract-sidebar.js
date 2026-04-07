@@ -22,7 +22,6 @@ const initBlockSidebar = (id, updaters) => {
     };
     
     const openSidebar = function () {
-        sidebar.find('.query-form-advanced-edit-apply')?.click();
         Omeka.openSidebar(sidebar);
     };
 
@@ -85,8 +84,6 @@ const initBlockSidebar = (id, updaters) => {
             const componentId = elem.attr("data-sidebar-id").replace(`${id}-data-`, "");
             updaters[componentId]?.(attachment, elem, index);
         });
-
-        sidebar.find('.query-form-advanced-edit-apply')?.click();
     };
 
     const insertAttachmentTemplate = function () {

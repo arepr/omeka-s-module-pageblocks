@@ -34,16 +34,13 @@ class TopicsListSidebarForm extends Fieldset
         ]);
         
         $this->add([
-            'name' => 'o:block[__blockIndex__][o:data][topics][__attachmentIndex__][query]',
-            'type' => OmekaElement\Query::class,
+            'name' => 'o:block[__blockIndex__][o:data][topics][__attachmentIndex__][link]',
+            'type' => Element\Text::class,
             'options' => [
-                'label' => 'Search query', // @translate
-                'info' => 'The search to be performed when the topic is clicked', // @translate
-                'query_resource_type' => 'items',
-                'query_partial_excludelist' => ['common/advanced-search/site'],
+                'label' => 'Topic button link' // @translate
             ],
             'attributes' => [
-                'data-sidebar-id' => 'topic-data-query'
+                'data-sidebar-id' => 'topic-data-link'
             ]
         ]);
     }

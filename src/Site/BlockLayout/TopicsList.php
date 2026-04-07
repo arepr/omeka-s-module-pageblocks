@@ -62,7 +62,7 @@ class TopicsList extends AbstractBlockLayout
             'keys' => [
                 'label',
                 'icon',
-                'query'
+                'link'
             ],
             'values' => $block ? $block->dataValue('topics') : []
         ]);
